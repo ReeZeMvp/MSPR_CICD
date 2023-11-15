@@ -92,10 +92,14 @@ jobs:
 
       - name: Add to IPFS
         run: |
-          apk add go-ipfs
+          wget https://dist.ipfs.io/go-ipfs/v0.9.1/go-ipfs_v0.9.1_linux-amd64.tar.gz
+          tar xvfz go-ipfs_v0.9.1_linux-amd64.tar.gz
+          cd go-ipfs
+          sudo bash install.sh
+          sleep 5
           ipfs init
           ipfs daemon &
-          sleep 10
+          sleep 5
           # rompichhh
           ipfs add save_agathe.sql > ipfs_key2
 
