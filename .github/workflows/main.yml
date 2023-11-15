@@ -108,5 +108,6 @@ jobs:
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
+          ipfs_key=$(cat ipfs_key.txt | awk '{print $2}')
           ipfs_key2=$(cat ipfs_key2.txt | awk '{print $2}')
-          curl -X POST -H "Content-Type: application/json" -d "{\"content\": \":tada: Agathe: Le workfl-owo IPFS est finito pipo. Clé IPFS .war: $ipfs_key ;Clé IPFS SQL : $ipfs_key2 :tada:\"}" $DISCORD_WEBHOOK
+          curl -X POST -H "Content-Type: application/json" -d "{\"content\": \":tada: Agathe: Le workfl-owo IPFS est finito pipo. Clé IPFS .war: $ipfs_key - Clé IPFS SQL : $ipfs_key2 :tada:\"}" $DISCORD_WEBHOOK
