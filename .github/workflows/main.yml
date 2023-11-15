@@ -92,6 +92,14 @@ jobs:
         if: always()
         run: |
           kill $SSH_TUNNEL_PID || echo "SSH tunnel fin."
+          
+      - name: Install IPFS
+        run: |
+          wget https://dist.ipfs.io/go-ipfs/v0.9.1/go-ipfs_v0.9.1_linux-amd64.tar.gz
+          tar xvfz go-ipfs_v0.9.1_linux-amd64.tar.gz
+          cd go-ipfs
+          sudo bash install.sh
+          ipfs init
       
 
       - name: Add to IPFS
