@@ -92,6 +92,11 @@ jobs:
 
       - name: Add to IPFS
         run: |
+          apk add go-ipfs
+          ipfs init
+          ipfs daemon &
+          sleep 10
+          # rompichhh
           ipfs add save_agathe.sql > ipfs_key2
 
       - name: Notification Discord
