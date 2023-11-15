@@ -1,13 +1,15 @@
-<html>
+<!DOCTYPE html>
+<html lang="pt">
 <head>
 <title>miaou agathe</title>
 </head>
 <body bgcolor=white>
 
 <table border="0">
+<caption>Landing Page TOMCAT POTI CHAAAAT</caption>
 <tr>
 <td align=center>
-<img src="images/tomcat.gif">
+<img src="images/tomcat.gif" alt="poti chat (logo tomcat)">
 </td>
 <td>
 <h1>Sample Application JSP Page</h1>
