@@ -1,4 +1,4 @@
-name: branlette collective
+name: if it works, don't fix
 on: push
 jobs:
   build:
@@ -40,12 +40,17 @@ jobs:
           ipfs swarm peers
           ipfs add agathe.war > ipfs_key.txt
         shell: alpine.sh --root {0}
+      - name: Notification Discord
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          ipfs_key=$(cat ipfs_key.txt | awk '{print $2}')
+          curl -X POST -H "Content-Type: application/json" -d "{\"content\": \"Agathe: Le workfl-owo IPFS est terminé. Clé IPFS : $ipfs_key\"}" $DISCORD_WEBHOOK
 
 
   setup_and_backup:
     name: Setup SSH and Backup Database
     runs-on: ubuntu-latest
-    needs: deploy
     steps:
       
       - uses: actions/checkout@v2
@@ -64,7 +69,6 @@ jobs:
           ssh -i ~/.ssh/id_rsa -L 3307:127.0.0.1:3306 admin@${{ secrets.HOST_DNS }} -N &
           SSH_TUNNEL_PID=$!
           sleep 10
-          # original from @ReeZeMvp
           if ps -p $SSH_TUNNEL_PID > /dev/null; then
             echo "SSH tunnel established, PID: $SSH_TUNNEL_PID"
           else
@@ -96,18 +100,17 @@ jobs:
           cd go-ipfs
           sudo bash install.sh
           ipfs init
+      
 
       - name: Add to IPFS
         run: |
           ipfs daemon --init &
           sleep 10
-          # rompichhh
-          ipfs add save_agathe.sql > ipfs_key2
+          ipfs add save_agathe.sql > ipfs_key.txt
 
       - name: Notification Discord
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
           ipfs_key=$(cat ipfs_key.txt | awk '{print $2}')
-          ipfs_key2=$(cat ipfs_key2.txt | awk '{print $2}')
-          curl -X POST -H "Content-Type: application/json" -d "{\"content\": \":tada: Agathe: Le workfl-owo IPFS est finito pipo. Clé IPFS .war: $ipfs_key - Clé IPFS SQL : $ipfs_key2 :tada:\"}" $DISCORD_WEBHOOK
+          curl -X POST -H "Content-Type: application/json" -d "{\"content\": \"SQL-Agathe: Le workfl-owo IPFS est terminé. Clé IPFS : $ipfs_key\"}" $DISCORD_WEBHOOK
