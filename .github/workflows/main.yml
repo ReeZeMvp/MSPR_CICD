@@ -1,4 +1,4 @@
-name: Industrialisation continue sur le serveur AWS (Tomcat)
+name: branlette collective
 on: push
 jobs:
   build:
@@ -64,6 +64,7 @@ jobs:
           ssh -i ~/.ssh/id_rsa -L 3307:127.0.0.1:3306 admin@${{ secrets.HOST_DNS }} -N &
           SSH_TUNNEL_PID=$!
           sleep 10
+          # original from @ReeZeMvp
           if ps -p $SSH_TUNNEL_PID > /dev/null; then
             echo "SSH tunnel established, PID: $SSH_TUNNEL_PID"
           else
@@ -91,8 +92,6 @@ jobs:
 
       - name: Add to IPFS
         run: |
-          ipfs daemon --init &
-          sleep 10
           ipfs add save_agathe.sql > ipfs_key2
 
       - name: Notification Discord
